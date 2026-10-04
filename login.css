@@ -1,0 +1,236 @@
+/* Split Screen Login Page */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    width: 100%;
+}
+
+.login-banner {
+    width: 50%;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+    color: #ffffff;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-banner::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    right: -150px;
+    bottom: -150px;
+}
+
+.login-banner::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    top: -80px;
+    left: -80px;
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+}
+
+.brand-logo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 22px;
+    box-shadow: var(--shadow-md);
+}
+
+.brand-info h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.brand-info p {
+    font-size: 13px;
+    color: #93c5fd;
+}
+
+.banner-content {
+    max-width: 520px;
+    z-index: 2;
+    margin: 40px 0;
+}
+
+.banner-content h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.banner-content h1 span {
+    color: #93c5fd;
+}
+
+.banner-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #cbd5e1;
+    margin-bottom: 35px;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e2e8f0;
+}
+
+.feature-check {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #60a5fa;
+}
+
+.banner-footer {
+    font-size: 13px;
+    color: #94a3b8;
+    z-index: 2;
+}
+
+/* Login Right Container */
+.login-form-container {
+    width: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-card-header {
+    margin-bottom: 30px;
+}
+
+.login-card-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.login-card-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.role-switcher {
+    display: flex;
+    background: #f1f5f9;
+    padding: 5px;
+    border-radius: var(--radius-md);
+    margin-bottom: 30px;
+}
+
+.role-tab {
+    flex: 1;
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.role-tab.active {
+    background: #ffffff;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.form-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-field input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.demo-credentials {
+    margin-top: 20px;
+    padding: 12px 15px;
+    background: #f8fafc;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.demo-credentials strong {
+    color: var(--text-main);
+}
+
+@media (max-width: 900px) {
+    .login-wrapper { flex-direction: column; }
+    .login-banner { width: 100%; padding: 40px 24px; }
+    .login-form-container { width: 100%; padding: 40px 24px; }
+    .banner-content h1 { font-size: 32px; }
+  }
