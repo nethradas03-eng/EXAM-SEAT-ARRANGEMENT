@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Schedule - Exam Seating System</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/seating.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ES</div>
+            <div class="sidebar-title">
+                <h3>ExamSeat</h3>
+                <p>Admin Portal</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="nav-link"><i class="ri-dashboard-line"></i> <span>Dashboard</span></a>
+            <a href="students.html" class="nav-link"><i class="ri-user-group-line"></i> <span>Students</span></a>
+            <a href="exams.html" class="nav-link active"><i class="ri-calendar-event-line"></i> <span>Exams</span></a>
+            <a href="rooms.html" class="nav-link"><i class="ri-community-line"></i> <span>Halls & Rooms</span></a>
+            <a href="generate.html" class="nav-link"><i class="ri-magic-line"></i> <span>Generate Seating</span></a>
+            <a href="arrangement.html" class="nav-link"><i class="ri-grid-line"></i> <span>Seating Grid</span></a>
+            <a href="reports.html" class="nav-link"><i class="ri-file-chart-line"></i> <span>Reports</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()"><i class="ri-logout-box-r-line"></i> <span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="app-topbar">
+            <div class="page-title">
+                <h1>Examination Timetable</h1>
+                <p>Schedule upcoming examinations, subjects, dates, and session time slots.</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="btn btn-primary" onclick="openModal('addExamModal')">
+                    <i class="ri-calendar-todo-line"></i> Schedule New Exam
+                </button>
+            </div>
+        </header>
+
+        <div id="examAlertContainer"></div>
+
+        <!-- Filter Toolbar -->
+        <div class="toolbar-card">
+            <div class="search-box">
+                <i class="ri-search-line search-icon"></i>
+                <input type="text" id="examSearch" placeholder="Search by Subject Code or Name...">
+            </div>
+
+            <div class="filter-group">
+                <label style="font-size:13px; font-weight:600;">Department:</label>
+                <select id="examDeptFilter">
+                    <option value="ALL">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="ME">ME</option>
+                    <option value="EEE">EEE</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Exam Table -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Department</th>
+                            <th>Date & Time Slot</th>
+                            <th style="text-align:right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examsTableBody">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal: Schedule Exam -->
+<div class="modal-backdrop" id="addExamModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Schedule Examination</h3>
+            <button class="modal-close" onclick="closeModal('addExamModal')">&times;</button>
+        </div>
+        <form id="addExamForm">
+            <div class="modal-body">
+                <div class="form-grid-2">
+                    <div class="form-field">
+                        <label for="newSubjectCode">Subject Code *</label>
+                        <input type="text" id="newSubjectCode" placeholder="e.g. CS301" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="newExamDept">Department *</label>
+                        <select id="newExamDept" required>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="ME">ME</option>
+                            <option value="EEE">EEE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="newSubjectName">Subject Name *</label>
+                    <input type="text" id="newSubjectName" placeholder="e.g. Compiler Design" required>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-field">
+                        <label for="newExamDate">Exam Date *</label>
+                        <input type="date" id="newExamDate" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="newTimeSlot">Time Slot / Session *</label>
+                        <select id="newTimeSlot" required>
+                            <option value="FN (09:30 AM - 12:30 PM)">FN (09:30 AM - 12:30 PM)</option>
+                            <option value="AN (01:30 PM - 04:30 PM)">AN (01:30 PM - 04:30 PM)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('addExamModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Scheduled Exam</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/exams.js"></script>
+</body>
+</html>
