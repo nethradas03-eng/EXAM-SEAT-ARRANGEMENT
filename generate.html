@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Seating - Exam Seating System</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/seating.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ES</div>
+            <div class="sidebar-title">
+                <h3>ExamSeat</h3>
+                <p>Admin Portal</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="nav-link"><i class="ri-dashboard-line"></i> <span>Dashboard</span></a>
+            <a href="students.html" class="nav-link"><i class="ri-user-group-line"></i> <span>Students</span></a>
+            <a href="exams.html" class="nav-link"><i class="ri-calendar-event-line"></i> <span>Exams</span></a>
+            <a href="rooms.html" class="nav-link"><i class="ri-community-line"></i> <span>Halls & Rooms</span></a>
+            <a href="generate.html" class="nav-link active"><i class="ri-magic-line"></i> <span>Generate Seating</span></a>
+            <a href="arrangement.html" class="nav-link"><i class="ri-grid-line"></i> <span>Seating Grid</span></a>
+            <a href="reports.html" class="nav-link"><i class="ri-file-chart-line"></i> <span>Reports</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()"><i class="ri-logout-box-r-line"></i> <span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="app-topbar">
+            <div class="page-title">
+                <h1>Automatic Seat Allocation Generator</h1>
+                <p>Select session exams, choose examination halls, and generate interleaved seating plans for multi-department halls.</p>
+            </div>
+        </header>
+
+        <div class="toolbar-card" style="max-width:850px; display:block;">
+            <form id="generateSeatingForm">
+                <!-- Select Exams Container -->
+                <div class="form-field">
+                    <label style="font-size:15px; margin-bottom:8px; display:block;">1. Select Scheduled Examinations for Session *</label>
+                    <div id="selectExamsContainer" style="background:#f8fafc; padding:16px; border:1px solid var(--border-color); border-radius:8px; max-height:200px; overflow-y:auto;">
+                        <!-- Filled dynamically by JS -->
+                    </div>
+                    <small class="text-muted" style="margin-top:4px; display:block;">Select all exams occurring during this exam session across different departments.</small>
+                </div>
+
+                <!-- Strategy -->
+                <div class="form-field" style="margin-top:24px;">
+                    <label style="font-size:15px;">2. Allocation Interleaving Strategy *</label>
+                    <select id="allocationStrategy" style="width:100%; padding:12px; font-size:15px; border-radius:8px;">
+                        <option value="ALTERNATING">Alternating Department (Interleaves different branches row/column-wise to prevent cheating)</option>
+                        <option value="SEQUENTIAL">Sequential Register Number Allocation</option>
+                    </select>
+                </div>
+
+                <!-- Select Target Halls -->
+                <div class="form-field" style="margin-top:24px;">
+                    <label style="font-size:15px; margin-bottom:8px; display:block;">3. Select Available Examination Halls / Rooms *</label>
+                    <div id="selectRoomsContainer" style="background:#f8fafc; padding:16px; border:1px solid var(--border-color); border-radius:8px; max-height:200px; overflow-y:auto;">
+                        <!-- Filled dynamically by JS -->
+                    </div>
+                </div>
+
+                <div style="margin-top:30px; display:flex; justify-content:flex-end;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="padding:14px 32px; font-size:16px;">
+                        <i class="ri-magic-line"></i> Generate Hall Allocations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/seating.js"></script>
+</body>
+</html>
