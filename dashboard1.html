@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Exam Seating System</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/seating.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ES</div>
+            <div class="sidebar-title">
+                <h3>ExamSeat</h3>
+                <p>Admin Portal</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="nav-link active"><i class="ri-dashboard-line"></i> <span>Dashboard</span></a>
+            <a href="students.html" class="nav-link"><i class="ri-user-group-line"></i> <span>Students</span></a>
+            <a href="exams.html" class="nav-link"><i class="ri-calendar-event-line"></i> <span>Exams</span></a>
+            <a href="rooms.html" class="nav-link"><i class="ri-community-line"></i> <span>Halls & Rooms</span></a>
+            <a href="generate.html" class="nav-link"><i class="ri-magic-line"></i> <span>Generate Seating</span></a>
+            <a href="arrangement.html" class="nav-link"><i class="ri-grid-line"></i> <span>Seating Grid</span></a>
+            <a href="reports.html" class="nav-link"><i class="ri-file-chart-line"></i> <span>Reports</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()"><i class="ri-logout-box-r-line"></i> <span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="app-topbar">
+            <div class="page-title">
+                <h1>Overview Dashboard</h1>
+                <p>Monitor examination system statistics, rooms, and active seating arrangements.</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="btn btn-secondary btn-sm" onclick="handleResetData()" style="color:var(--danger); border-color:var(--danger-bg);">
+                    <i class="ri-delete-bin-line"></i> Clear All Saved Data
+                </button>
+                <div class="user-profile">
+                    <div class="avatar">A</div>
+                    <div class="user-info">
+                        <div class="name">Administrator</div>
+                        <div class="role">System Controller</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-data">
+                    <h3 id="statStudents">0</h3>
+                    <p>Total Students</p>
+                </div>
+                <div class="metric-icon icon-blue">
+                    <i class="ri-user-group-line"></i>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-data">
+                    <h3 id="statRooms">0</h3>
+                    <p>Active Exam Halls</p>
+                </div>
+                <div class="metric-icon icon-green">
+                    <i class="ri-community-line"></i>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-data">
+                    <h3 id="statCapacity">0</h3>
+                    <p>Total Seat Capacity</p>
+                </div>
+                <div class="metric-icon icon-amber">
+                    <i class="ri-layout-grid-line"></i>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-data">
+                    <h3 id="statExams">0</h3>
+                    <p>Scheduled Exams</p>
+                </div>
+                <div class="metric-icon icon-purple">
+                    <i class="ri-calendar-event-line"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Banner -->
+        <div class="toolbar-card" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff;">
+            <div>
+                <h3 style="font-size:18px; font-weight:700; margin-bottom:4px;">Generate Seat Allocation</h3>
+                <p style="font-size:13px; color:#bfdbfe;">Automatically allocate students into examination halls using department interleaving.</p>
+            </div>
+            <a href="generate.html" class="btn btn-primary" style="background:#fff; color:var(--primary); font-weight:700;">
+                <i class="ri-magic-line"></i> Generate Seating Plan
+            </a>
+        </div>
+
+        <!-- Recent Seating Summary Table -->
+        <div class="table-card">
+            <div style="padding:20px 24px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:17px; font-weight:700;">Active Seating Allocations Summary</h3>
+                <a href="arrangement.html" class="btn btn-secondary btn-sm">View Full Grid</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Hall / Room</th>
+                            <th>Block</th>
+                            <th>Grid Matrix</th>
+                            <th>Total Desks</th>
+                            <th>Allocated Seats</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboardArrangementBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    checkAdminAuth();
+    loadDashboardStats();
+});
+
+function loadDashboardStats() {
+    const students = getStudents();
+    const rooms = getRooms();
+    const exams = getExams();
+    const arrangements = getArrangements();
+
+    document.getElementById('statStudents').textContent = students.length;
+    document.getElementById('statRooms').textContent = rooms.length;
+    
+    const totalCap = rooms.reduce((acc, r) => acc + (r.capacity || 0), 0);
+    document.getElementById('statCapacity').textContent = totalCap;
+    
+    document.getElementById('statExams').textContent = exams.length;
+
+    // Render summary table
+    const tableBody = document.getElementById('dashboardArrangementBody');
+    if (arrangements.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-state">
+                    <i class="ri-grid-line"></i>
+                    <p>No seating arrangements generated yet. Enter students, rooms, and exams, then click "Generate Seating Plan".</p>
+                </td>
+            </tr>
+        `;
+    } else {
+        tableBody.innerHTML = arrangements.map(arr => `
+            <tr>
+                <td><strong>${arr.roomNo}</strong></td>
+                <td>${arr.block}</td>
+                <td>${arr.rows} × ${arr.cols}</td>
+                <td>${arr.seats.length} Desks</td>
+                <td><span class="badge badge-success">${arr.seats.filter(s => s.studentId).length} Candidates Seated</span></td>
+                <td><a href="arrangement.html" class="btn btn-secondary btn-sm">View Grid</a></td>
+            </tr>
+        `).join('');
+    }
+}
+
+function handleResetData() {
+    if (confirm('Are you sure you want to clear all stored students, rooms, exams, and arrangements?')) {
+        resetSystemData();
+        loadDashboardStats();
+        alert('All stored data has been cleared.');
+    }
+}
+</script>
+</body>
+</html>
